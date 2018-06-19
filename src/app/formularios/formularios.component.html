@@ -1,9 +1,9 @@
 <div class="main col-md-6 col-md-offset-3">
-    
-    <form (ngSubmit)="onSubmit()" #simpleForm="ngForm">
+
+    <form (submit)="onSubmit()" #parejasForm="ngForm">
       <div class="form-group">
         <label for="name">Nombre:</label>
-        <input type="text" class="form-control" id="name" required 
+        <input type="text" class="form-control" id="name" required
         [(ngModel)]="model.name" name="name" #name="ngModel">
         <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
           Nombre requerido </div>
@@ -17,9 +17,10 @@
       </div>
       <div class="form-group">
         <label for="pwd2">Repite Password:</label>
-        <input type="password" class="form-control" id="pwd2" [(ngModel)]="pwd2"required name="pwd2" >
-        <div [hidden]="pwd2==''|| pwd2==model.pwd" class="alert alert-danger">
-          Password no coincide </div>
+        <input type="password" class="form-control" id="pwd2" required
+               [(ngModel)]="model.pwd2" name="pwd2" #passComp="ngModel">
+        <div [hidden]="passComp.pristine || passComp.value==pwd.value" class="alert alert-danger">
+          Las contraseñas no coinciden </div>
       </div>
       <div class="form-group">
         <label for="email">Email:</label>
@@ -27,8 +28,8 @@
         [(ngModel)]="model.email" name="email" #email="ngModel">
         <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
           Email requerido </div>
-      </div>  
-      <div class="form-group form-check ">
+      </div>
+      <div class="form-group ">
         <label class="form-check col-xs-3">
         <input type="radio" class="form-check-input" name="optradio"
         [(ngModel)]="model.genero" value="hombre" #genero="ngModel">Hombre
@@ -44,46 +45,52 @@
         <input type="radio" class="form-check-input" name="optradio"
         [(ngModel)]="model.genero" value="otro" #genero="ngModel">Otro
         </label>
-      </div> 
+      </div>
       <div [hidden]="genero.pristine" class="alert alert-light col-xs-3">
-            <ng-template [ngIf]="model.genero == 'hombre'">
+            <ng-template [ngIf]="genero.value == 'hombre'">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Symbol_mars.svg/150px-Symbol_mars.svg.png" alt="Smiley face" height="42" width="42">
             </ng-template>
-            <ng-template [ngIf]="model.genero == 'mujer'">
+            <ng-template [ngIf]="genero.value == 'mujer'">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Symbol_venus.svg/260px-Symbol_venus.svg.png" alt="Smiley face" height="42" width="28">
             </ng-template>
-            <ng-template [ngIf]="model.genero == 'otro'">
+            <ng-template [ngIf]="genero.value == 'otro'">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Mercury_symbol.svg/50px-Mercury_symbol.svg.png" alt="Smiley face" height="42" width="42">
-            </ng-template>     
-      </div>  
+            </ng-template>
+      </div>
       </div>
       <div class="form-group col-xs-12">
         <label for="sel1">Orientación sexual:</label>
-        <select class="form-control" id="sel1">
-            <option *ngFor="let ori of orientaciones" >
+        <select class="form-control" id="sel1" [(ngModel)]="model.orientacion" 
+        [ngModelOptions]="{standalone: true}">
+            <option *ngFor="let ori of orientaciones" [value]="ori">
                {{ori}}
             </option>
-        </select>  
-      </div> 
+        </select>                
+      </div>
       <div class="form-group">
         <label for="sel2">Tipo de relación buscada:</label>
-        <select class="form-control" id="sel2">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>    
+        <select class="form-control" id="sel2" [(ngModel)]="model.relacion" 
+        [ngModelOptions]="{standalone: true}">
+
+            <option value="Amistad">Amistad</option>
+            <option value="Relación esporádica">Relación esporádica</option>
+            <option value="Relación seria">Relación seria</option>
         </select>
-      </div> 
+      </div>
       <div class="form-group form-check">
         <label class="form-check-label">
           <input class="form-check-input" type="checkbox" required
-            [(ngModel)]="model.condiciones" name="condiciones" #condiciones="ngModel">         
+            [(ngModel)]="model.condiciones" name="condiciones" #condiciones="ngModel">
            Acepto las condiciones de uso
-    
+
         </label>
-        <div [hidden]="condiciones.valid" class="alert alert-info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis laudantium magnam, officia libero corrupti eius tempore delectus iste. Veniam assumenda dolorem, enim impedit earum facere nisi odit adipisci laudantium repellendus!
-             
+        <div [hidden]="condiciones.valid" class="alert alert-info">
+          El acceso a los contenidos de las secciones de nuestra Web, se hará de acuerdo a la política que establezca
+          la entidad. Asimismo el servicio podrá ser modificado, en cualquier momento y sin previo aviso, la información
+          contenida en el sitio Web, por lo que la entidad no se responsabiliza de que esa información esté actualizada.
+
            </div>
       </div>
-      <button type="submit" class="btn btn-primary" [disabled]="condiciones.invalid || name.invalid || email.invalid || pwd.invalid || pwd2!=model.pwd">Enviar</button>
+      <button type="submit" class="btn btn-primary" [disabled]="condiciones.invalid || !parejasForm.form.valid">Enviar</button>
     </form>
 </div>

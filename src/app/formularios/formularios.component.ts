@@ -6,12 +6,14 @@ import { Usuario } from '../usuario';
   styleUrls: ['./formularios.component.css']
 })
 export class FormulariosComponent implements OnInit {
-  orientaciones = ['aaaa', 'bbbb', 'cccc'];
-  model = new Usuario(null,'','','', false);
-  pwd2 ='';
+  orientaciones = ['Hetero', 'Homo', 'Es complicado'];
+
+ // model = new Usuario('pepe', 'pepe1' , 'pepe@pepe.pepe' , true, 'pepe1',
+   // 'hombre', 'Homo', 'Relación seria') ;
+  model = new Usuario('', '' , '' , false, '','','','');
   constructor() { }
 
-  ngOnInit() {      
+  ngOnInit() {
   }
 
 }
